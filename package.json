@@ -1,0 +1,30 @@
+{
+    "name": "@maxfield/node-comet2",
+    "version": "0.0.5",
+    "description": "",
+    "main": "dist/src/app.js",
+    "bin": {
+        "node-comet2": "dist/src/app.js"
+    },
+    "preferGlobal": true,
+    "author": "Maxfield Walker",
+    "license": "MIT",
+    "scripts": {
+        "compile": "node ./node_modules/typescript/bin/tsc -p .",
+        "watch": "node ./node_modules/typescript/bin/tsc -w -p .",
+        "run": "npm run compile && node ./dist/src/app.js",
+        "test": "npm run compile && mocha",
+        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- --ui tdd ./dist/test/**/*.js",
+        "prepublish": "npm run compile"
+    },
+    "devDependencies": {
+        "typescript": "^2.2.1",
+        "mocha": "^2.3.3",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32"
+    },
+    "dependencies": {
+        "@maxfield/node-casl2-comet2-common": "^0.0.5",
+        "@maxfield/node-comet2-core": "^0.0.2"
+    }
+}
