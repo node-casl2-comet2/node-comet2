@@ -5,6 +5,7 @@ import { sys } from "@maxfield/node-casl2-comet2-common";
 import { defaultComet2Option } from "./settings";
 import { printComet2State } from "./ui/print";
 const readlineSync = require("readline-sync");
+import * as _ from "lodash";
 
 
 export function interactiveRun(inputFile: string, option: Comet2Option = defaultComet2Option) {
@@ -32,7 +33,7 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
                 return;
             case InteractiveCommand.Help:
             default:
-                printInteractiveCommandHelp();
+                printInteractiveModeCommandsHelp();
                 break;
         }
     }
@@ -59,8 +60,40 @@ function getCommand(): InteractiveCommand {
     }
 }
 
-function printInteractiveCommandHelp() {
-    sys.stdout.writeLine("interactive command help");
+function printInteractiveModeCommandsHelp() {
+    const output: Array<string> = [];
+
+    const command: Array<string> = [];
+    const descriptionColumn: Array<string> = [];
+    let marginLength = 0;
+
+    const sortedCommands = interactiveModeCommands.sort((a, b) => {
+        const c = a.name.toLowerCase() > b.name.toLowerCase();
+        return c ? 1 : -1;
+    });
+
+    const makeSpace = (spaceLength: number) => Array(spaceLength + 1).join(" ");
+
+    for (const cmd of sortedCommands) {
+        command.push(cmd.name);
+        descriptionColumn.push(cmd.description);
+
+        marginLength = Math.max(cmd.name.length, marginLength);
+    }
+
+    if (command.length !== descriptionColumn.length) throw new Error();
+
+    const zip = _.zip(command, descriptionColumn);
+    for (const l of zip) {
+        const [cmd, description] = l;
+        // e.g. s [スペース] [説明]
+        const format = cmd + makeSpace(marginLength - cmd.length + 4) + description;
+        output.push(format);
+    }
+
+    for (const out of output) {
+        sys.stdout.writeLine(out);
+    }
 }
 
 enum InteractiveCommand {
@@ -71,3 +104,27 @@ enum InteractiveCommand {
 
     Unknown
 };
+
+interface InteractiveModeCommand {
+    name: string;
+    description: string;
+}
+
+export const interactiveModeCommands: Array<InteractiveModeCommand> = [
+    {
+        name: "s",
+        description: "命令を1つ実行します(ステップ実行)。"
+    },
+    {
+        name: "q",
+        description: "プログラムの実行を終了します。"
+    },
+    {
+        name: "r",
+        description: "対話モードを終了してプログラムを実行します。"
+    },
+    {
+        name: "h",
+        description: "対話モードのヘルプを表示します"
+    }
+];
