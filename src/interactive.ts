@@ -22,9 +22,10 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
 
         switch (command) {
             case InteractiveCommand.Step:
-                const end = comet2.run();
-
                 lastComet2State = state;
+
+                const end = comet2.run();
+                if (end) return;
                 break;
             case InteractiveCommand.Quit:
                 return;

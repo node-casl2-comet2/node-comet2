@@ -47,9 +47,12 @@ export function printComet2State(state: Comet2State, lastState?: Comet2State): A
     const output: Array<string> = [];
 
     const pr = printRegister("PR", state.PR);
-    const inst = printInstruction(state.nextInstruction.name, state.nextInstruction.args);
+    const inst = state.nextInstruction
+        ? printInstruction(state.nextInstruction.name, state.nextInstruction.args)
+        : undefined;
+
     const step = printStep(state.step);
-    const line1 = [pr, inst, step].join(" ");
+    const line1 = (inst === undefined ? [pr, step] : [pr, inst, step]).join(" ");
     output.push(line1);
 
     const sp = printRegister("SP", state.SP);
