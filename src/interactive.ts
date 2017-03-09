@@ -3,6 +3,7 @@
 import { Comet2, Comet2Option, Comet2State } from "@maxfield/node-comet2-core";
 import { sys } from "@maxfield/node-casl2-comet2-common";
 import { defaultComet2Option } from "./settings";
+import { printComet2State } from "./ui/print";
 const readlineSync = require("readline-sync");
 
 
@@ -12,7 +13,7 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
 
     while (true) {
         const state = comet2.getState();
-        printComet2State(state);
+        printState(state);
 
         // 命令を受け取る
         const command = getCommand();
@@ -37,8 +38,9 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
     }
 }
 
-function printComet2State(state: Comet2State) {
-    console.log(state);
+function printState(state: Comet2State): void {
+    const s = printComet2State(state);
+    s.forEach(x => sys.stdout.writeLine(x));
 }
 
 function getCommand(): InteractiveCommand {

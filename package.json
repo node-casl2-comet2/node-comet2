@@ -1,6 +1,6 @@
 {
   "name": "@maxfield/node-comet2",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "",
   "main": "dist/src/app.js",
   "bin": {
@@ -18,14 +18,18 @@
     "prepublish": "npm run compile"
   },
   "devDependencies": {
-    "typescript": "^2.2.1",
-    "mocha": "^2.3.3",
+    "@types/lodash": "^4.14.54",
+    "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
-    "@types/mocha": "^2.2.32"
+    "mocha": "^2.3.3",
+    "typescript": "^2.2.1"
   },
   "dependencies": {
     "@maxfield/node-casl2-comet2-common": "^0.0.5",
+    "@maxfield/node-casl2-comet2-core-common": "0.0.4",
     "@maxfield/node-comet2-core": "^0.0.3",
+    "immutable": "^3.8.1",
+    "lodash": "^4.17.4",
     "readline-sync": "^1.4.6"
   }
 }
