@@ -27,7 +27,7 @@
   "dependencies": {
     "@maxfield/node-casl2-comet2-common": "^0.0.5",
     "@maxfield/node-casl2-comet2-core-common": "0.0.4",
-    "@maxfield/node-comet2-core": "^0.0.3",
+    "@maxfield/node-comet2-core": "^0.0.4",
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
     "readline-sync": "^1.4.6"

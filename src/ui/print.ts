@@ -8,9 +8,10 @@ import { Comet2State } from "@maxfield/node-comet2-core";
 export function printRegister(name: string, value: number) {
     if (value < 0 || value > 65535) throw new Error();
 
+    const registerName = _.pad(name, 3, " ");
     const hex = printHex(value);
     const decimal = `(${("      " + value).slice(-6)})`;
-    return [name, hex, decimal].join(" ");
+    return [registerName, hex, decimal].join(" ");
 }
 
 export function printFlag(name: string, value: boolean) {
