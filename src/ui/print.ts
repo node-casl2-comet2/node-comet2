@@ -4,6 +4,7 @@ import * as Immutable from "immutable";
 import * as _ from "lodash";
 import { sys } from "@maxfield/node-casl2-comet2-common";
 import { Comet2State } from "@maxfield/node-comet2-core";
+const colors = require("colors/safe");
 
 export function printRegister(name: string, value: number) {
     if (value < 0 || value > 65535) throw new Error();
@@ -42,7 +43,7 @@ export function printInstruction(instruction: string, args: Array<string | numbe
     return `[${inst} ${operands}]`;
 }
 
-export function printComet2State(state: Comet2State): Array<string> {
+export function printComet2State(state: Comet2State, lastState?: Comet2State): Array<string> {
     const output: Array<string> = [];
 
     const pr = printRegister("PR", state.PR);
@@ -60,18 +61,19 @@ export function printComet2State(state: Comet2State): Array<string> {
     const line2 = [sp, fr].join(" ");
     output.push(line2);
 
-    const gr0 = printRegister("GR0", state.GR.GR0);
-    const gr1 = printRegister("GR1", state.GR.GR1);
-    const gr2 = printRegister("GR2", state.GR.GR2);
-    const gr3 = printRegister("GR3", state.GR.GR3);
-    const gr4 = printRegister("GR4", state.GR.GR4);
-    const gr5 = printRegister("GR5", state.GR.GR5);
-    const gr6 = printRegister("GR6", state.GR.GR6);
-    const gr7 = printRegister("GR7", state.GR.GR7);
+    function applyColor(changed: boolean, s: string) {
+        return changed ? colors.green(s) : s;
+    }
 
-    const line3 = [gr0, gr1, gr2, gr3].join(" ");
+    function printColorRegister(n: number) {
+        const grName = "GR" + n;
+        const changed = lastState !== undefined && state.GR[grName] !== lastState.GR[grName];
+        return applyColor(changed, printRegister(grName, state.GR[grName]));
+    }
+
+    const line3 = Immutable.Range(0, 4).map(printColorRegister).toArray().join(" ");
+    const line4 = Immutable.Range(4, 8).map(printColorRegister).toArray().join(" ");
     output.push(line3);
-    const line4 = [gr4, gr5, gr6, gr7].join(" ");
     output.push(line4);
 
     return output;

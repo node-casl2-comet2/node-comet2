@@ -7,6 +7,7 @@ import { printComet2State } from "./ui/print";
 const readlineSync = require("readline-sync");
 import * as _ from "lodash";
 
+let lastComet2State: Comet2State;
 
 export function interactiveRun(inputFile: string, option: Comet2Option = defaultComet2Option) {
     const comet2 = new Comet2(option);
@@ -14,7 +15,7 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
 
     while (true) {
         const state = comet2.getState();
-        printState(state);
+        printState(state, lastComet2State);
 
         // 命令を受け取る
         const command = getCommand();
@@ -22,6 +23,8 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
         switch (command) {
             case InteractiveCommand.Step:
                 const end = comet2.run();
+
+                lastComet2State = state;
                 break;
             case InteractiveCommand.Quit:
                 return;
@@ -39,8 +42,8 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
     }
 }
 
-function printState(state: Comet2State): void {
-    const s = printComet2State(state);
+function printState(state: Comet2State, lastComet2State?: Comet2State): void {
+    const s = printComet2State(state, lastComet2State);
     s.forEach(x => sys.stdout.writeLine(x));
 }
 
