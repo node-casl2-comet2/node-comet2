@@ -45,6 +45,9 @@ export function printInstruction(instruction: string, args: Array<string | numbe
 
 export function printComet2State(state: Comet2State, lastState?: Comet2State): Array<string> {
     const output: Array<string> = [];
+    function applyColor(changed: boolean, s: string) {
+        return changed ? colors.green(s) : s;
+    }
 
     const pr = printRegister("PR", state.PR);
     const inst = state.nextInstruction
@@ -55,27 +58,29 @@ export function printComet2State(state: Comet2State, lastState?: Comet2State): A
     const line1 = (inst === undefined ? [pr, step] : [pr, inst, step]).join(" ");
     output.push(line1);
 
-    const sp = printRegister("SP", state.SP);
-    const of = printFlag("OF", state.FR.OF);
-    const sf = printFlag("SF", state.FR.SF);
-    const zf = printFlag("ZF", state.FR.ZF);
+    const sp = applyColor(lastState !== undefined && state.SP !== lastState.SP, printRegister("SP", state.SP));
+
+    function printColorFlag(name: string) {
+        const changed = lastState !== undefined && state.FR[name] !== lastState.FR[name];
+        return applyColor(changed, printFlag(name, state.FR[name]));
+    }
+
+    const of = printColorFlag("OF");
+    const sf = printColorFlag("SF");
+    const zf = printColorFlag("ZF");
     const fr = [of, sf, zf].join(" ");
 
     const line2 = [sp, fr].join(" ");
     output.push(line2);
 
-    function applyColor(changed: boolean, s: string) {
-        return changed ? colors.green(s) : s;
-    }
-
-    function printColorRegister(n: number) {
+    function printColorGR(n: number) {
         const grName = "GR" + n;
         const changed = lastState !== undefined && state.GR[grName] !== lastState.GR[grName];
         return applyColor(changed, printRegister(grName, state.GR[grName]));
     }
 
-    const line3 = Immutable.Range(0, 4).map(printColorRegister).toArray().join(" ");
-    const line4 = Immutable.Range(4, 8).map(printColorRegister).toArray().join(" ");
+    const line3 = Immutable.Range(0, 4).map(printColorGR).toArray().join(" ");
+    const line4 = Immutable.Range(4, 8).map(printColorGR).toArray().join(" ");
     output.push(line3);
     output.push(line4);
 
