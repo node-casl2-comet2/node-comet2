@@ -6,6 +6,8 @@ import { Comet2, Comet2Option, Register16bit, Flag } from "@maxfield/node-comet2
 import { parseCommandLine, CLI, sys, ExitStatus, isValidInputSource } from "@maxfield/node-casl2-comet2-common";
 import { commandLineOptions, Comet2CommandLineOptions } from "./options";
 import { getVersion } from "./util/version";
+import { interactiveRun } from "./interactive";
+import { defaultComet2Option } from "./settings";
 
 function execute(args: Array<string>) {
     const parsed = parseCommandLine<Comet2CommandLineOptions>(args, commandLineOptions);
@@ -40,21 +42,27 @@ function execute(args: Array<string>) {
         return sys.exit(ExitStatus.Fail);
     }
 
+    const interactiveMode = options.run !== true;
     const option: Comet2Option = {
         useGR8AsSP: options.useGR8AsSP
     };
 
-    run(comFilePath, option);
+    if (interactiveMode) {
+        interactiveRun(comFilePath, option);
+    } else {
+        autoRun(comFilePath, option);
+    }
 }
 
-const defaultOption: Comet2Option = {
-    useGR8AsSP: true
-};
-
-function run(inputFile: string, option: Comet2Option = defaultOption) {
+function autoRun(inputFile: string, option: Comet2Option = defaultComet2Option) {
     const comet2 = new Comet2(option);
+    comet2.init(inputFile);
 
-    comet2.start(inputFile);
+    while (true) {
+        // 一つ命令を進める
+        const end = comet2.run();
+        if (end) break;
+    }
 }
 
 const args = process.argv.slice(2);
