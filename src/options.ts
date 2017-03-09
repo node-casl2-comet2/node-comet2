@@ -30,7 +30,7 @@ export const commandLineOptions: Array<CommandLineOption> = [
         name: "interactive",
         shortName: "i",
         type: "boolean",
-        description: "対話モードでログラムを実行します。"
+        description: "対話モードでプログラムを実行します。"
     }
 ];
 
