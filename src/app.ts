@@ -2,12 +2,13 @@
 
 "use strict";
 
-import { Comet2, Comet2Option, Register16bit, Flag } from "@maxfield/node-comet2-core";
+import { Comet2, Comet2Option, Register16bit, Flag, RuntimeError } from "@maxfield/node-comet2-core";
 import { parseCommandLine, CLI, sys, ExitStatus, isValidInputSource } from "@maxfield/node-casl2-comet2-common";
 import { commandLineOptions, Comet2CommandLineOptions } from "./options";
 import { getVersion } from "./util/version";
 import { interactiveRun } from "./interactive";
 import { defaultComet2Option } from "./settings";
+import { printRuntimeError } from "./ui/print";
 
 function execute(args: Array<string>) {
     const parsed = parseCommandLine<Comet2CommandLineOptions>(args, commandLineOptions);
@@ -59,9 +60,16 @@ function autoRun(inputFile: string, option: Comet2Option = defaultComet2Option) 
     comet2.init(inputFile);
 
     while (true) {
-        // 一つ命令を進める
-        const end = comet2.run();
-        if (end) break;
+        try {
+            // 一つ命令を進める
+            const end = comet2.stepInto();
+            if (end) break;
+        } catch (error) {
+            if (error instanceof RuntimeError) {
+                sys.stderr.writeLine(printRuntimeError(error));
+            }
+            return;
+        }
     }
 }
 

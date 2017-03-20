@@ -3,7 +3,7 @@
 import * as Immutable from "immutable";
 import * as _ from "lodash";
 import { sys } from "@maxfield/node-casl2-comet2-common";
-import { Comet2State } from "@maxfield/node-comet2-core";
+import { Comet2State, RuntimeError } from "@maxfield/node-comet2-core";
 const colors = require("colors/safe");
 
 export function printRegister(name: string, value: number) {
@@ -85,4 +85,8 @@ export function printComet2State(state: Comet2State, lastState?: Comet2State): A
     output.push(line4);
 
     return output;
+}
+
+export function printRuntimeError(error: RuntimeError): string {
+    return colors.red(error.toString());
 }

@@ -1,9 +1,9 @@
 "use strict";
 
-import { Comet2, Comet2Option, Comet2State } from "@maxfield/node-comet2-core";
+import { Comet2, Comet2Option, Comet2State, RuntimeError } from "@maxfield/node-comet2-core";
 import { sys } from "@maxfield/node-casl2-comet2-common";
 import { defaultComet2Option } from "./settings";
-import { printComet2State } from "./ui/print";
+import { printComet2State, printRuntimeError } from "./ui/print";
 const readlineSync = require("readline-sync");
 import * as _ from "lodash";
 
@@ -24,15 +24,29 @@ export function interactiveRun(inputFile: string, option: Comet2Option = default
             case InteractiveCommand.Step:
                 lastComet2State = state;
 
-                const end = comet2.run();
-                if (end) return;
+                try {
+                    const end = comet2.stepInto();
+                    if (end) return;
+                } catch (error) {
+                    if (error instanceof RuntimeError) {
+                        sys.stderr.writeLine(printRuntimeError(error));
+                    }
+                    return;
+                }
                 break;
             case InteractiveCommand.Quit:
                 return;
             case InteractiveCommand.Run:
                 while (true) {
-                    const end = comet2.run();
-                    if (end) break;
+                    try {
+                        const end = comet2.stepInto();
+                        if (end) break;
+                    } catch (error) {
+                        if (error instanceof RuntimeError) {
+                            sys.stderr.writeLine(printRuntimeError(error));
+                        }
+                        return;
+                    }
                 }
                 return;
             case InteractiveCommand.Help:
