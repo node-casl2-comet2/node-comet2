@@ -143,6 +143,6 @@ export const interactiveModeCommands: Array<InteractiveModeCommand> = [
     },
     {
         name: "h",
-        description: "対話モードのヘルプを表示します"
+        description: "対話モードのヘルプを表示します。"
     }
 ];
