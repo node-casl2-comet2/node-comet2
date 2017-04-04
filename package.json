@@ -12,16 +12,17 @@
   "scripts": {
     "compile": "node ./node_modules/typescript/bin/tsc -p .",
     "watch": "node ./node_modules/typescript/bin/tsc -w -p .",
-    "run": "npm run compile && node ./dist/src/app.js",
     "test": "npm run compile && mocha",
-    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report none -- --ui tdd ./dist/test/**/*.js",
+    "test:coverage": "npm run compile && istanbul cover ./node_modules/mocha/bin/_mocha -- --no-timeouts && remap-istanbul --input ./coverage/coverage.json --output ./coverage/lcov.ts.info --type lcovonly",
     "prepublish": "npm run compile"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.54",
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
+    "coveralls": "^2.12.0",
     "mocha": "^2.3.3",
+    "remap-istanbul": "^0.9.1",
     "typescript": "^2.2.1"
   },
   "dependencies": {
