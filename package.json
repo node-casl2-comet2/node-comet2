@@ -1,7 +1,7 @@
 {
   "name": "@maxfield/node-comet2",
   "version": "0.1.0",
-  "description": "",
+  "description": "COMET2 CLI",
   "main": "dist/src/app.js",
   "bin": {
     "node-comet2": "dist/src/app.js"
