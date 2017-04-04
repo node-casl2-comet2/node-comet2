@@ -9,6 +9,11 @@ export const commandLineOptions: Array<CommandLineOption> = [
         description: "GR8をスタックポインタとして使用します。"
     },
     {
+        name: "allowSelfModifying",
+        type: "boolean",
+        description: "自己書き換えを許可します。"
+    },
+    {
         name: "version",
         shortName: "v",
         type: "boolean",
@@ -36,6 +41,7 @@ export const commandLineOptions: Array<CommandLineOption> = [
 
 export interface Comet2CommandLineOptions extends CommandLineOptions {
     useGR8AsSP?: boolean;
+    allowSelfModifying?: boolean;
     version?: boolean;
     help?: boolean;
     run?: boolean;

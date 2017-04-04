@@ -45,7 +45,8 @@ function execute(args: Array<string>) {
 
     const interactiveMode = options.run !== true;
     const option: Comet2Option = {
-        useGR8AsSP: options.useGR8AsSP
+        useGR8AsSP: options.useGR8AsSP,
+        allowSelfModifying: options.allowSelfModifying
     };
 
     if (interactiveMode) {

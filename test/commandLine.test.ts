@@ -15,6 +15,12 @@ suite("parse command line test", () => {
         assert(result.options.useGR8AsSP);
     });
 
+    test("allowSelfModifying option", () => {
+        const cl = ["--allowSelfModifying"];
+        const result = parse(cl);
+        assert(result.options.allowSelfModifying);
+    });
+
     test("version option", () => {
         const cl = ["--version"];
         const result = parse(cl);
