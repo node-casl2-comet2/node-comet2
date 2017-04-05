@@ -5,6 +5,8 @@
 
 node-comet2はCOMET2のCLIツールです。
 
+[![node-comet2 demo](https://asciinema.org/a/111024.png)](https://asciinema.org/a/111024)
+
 ## Install
 1. [Node.js](https://nodejs.org/ja/)をインストール
 1. `$ npm install -g @maxfield/node-comet2`
