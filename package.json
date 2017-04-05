@@ -1,6 +1,6 @@
 {
   "name": "@maxfield/node-comet2",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "COMET2 CLI",
   "main": "dist/src/app.js",
   "bin": {
@@ -26,9 +26,9 @@
     "typescript": "^2.2.1"
   },
   "dependencies": {
-    "@maxfield/node-casl2-comet2-common": "^0.0.5",
-    "@maxfield/node-casl2-comet2-core-common": "0.1.0",
-    "@maxfield/node-comet2-core": "^0.1.0",
+    "@maxfield/node-casl2-comet2-common": "^1.0.0",
+    "@maxfield/node-casl2-comet2-core-common": "1.0.0",
+    "@maxfield/node-comet2-core": "^1.0.0",
     "colors": "^1.1.2",
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
