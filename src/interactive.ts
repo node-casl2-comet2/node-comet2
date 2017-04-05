@@ -79,10 +79,10 @@ function getCommand(): InteractiveCommand {
 }
 
 function printInteractiveModeCommandsHelp() {
-    const output: Array<string> = [];
+    const output: string[] = [];
 
-    const command: Array<string> = [];
-    const descriptionColumn: Array<string> = [];
+    const command: string[] = [];
+    const descriptionColumn: string[] = [];
     let marginLength = 0;
 
     const sortedCommands = interactiveModeCommands.sort((a, b) => {
@@ -121,14 +121,14 @@ enum InteractiveCommand {
     Help,
 
     Unknown
-};
+}
 
 interface InteractiveModeCommand {
     name: string;
     description: string;
 }
 
-export const interactiveModeCommands: Array<InteractiveModeCommand> = [
+export const interactiveModeCommands: InteractiveModeCommand[] = [
     {
         name: "s",
         description: "命令を1つ実行します(ステップ実行)。"

@@ -30,7 +30,7 @@ function printHex(n: number) {
     return `#${hex}`;
 }
 
-export function printInstruction(instruction: string, args: Array<string | number>) {
+export function printInstruction(instruction: string, args: (string | number)[]) {
     const inst = _.padEnd(instruction, 6, " ");
     const operands = _.padEnd(args.map(x => {
         if (typeof x === "number") {
@@ -43,8 +43,8 @@ export function printInstruction(instruction: string, args: Array<string | numbe
     return `[${inst} ${operands}]`;
 }
 
-export function printComet2State(state: Comet2State, lastState?: Comet2State): Array<string> {
-    const output: Array<string> = [];
+export function printComet2State(state: Comet2State, lastState?: Comet2State): string[] {
+    const output: string[] = [];
     function applyColor(changed: boolean, s: string) {
         return changed ? colors.green(s) : s;
     }

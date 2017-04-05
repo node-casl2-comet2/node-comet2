@@ -10,7 +10,7 @@ import { interactiveRun } from "./interactive";
 import { defaultComet2Option } from "./settings";
 import { printRuntimeError } from "./ui/print";
 
-function execute(args: Array<string>) {
+function execute(args: string[]) {
     const parsed = parseCommandLine<Comet2CommandLineOptions>(args, commandLineOptions);
     const { options, fileNames, errors } = parsed;
     if (errors.length > 0) {
